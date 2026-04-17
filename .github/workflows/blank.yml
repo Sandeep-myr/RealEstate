@@ -1,0 +1,35 @@
+name: Deploy Angular RealEstate App
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write   # required for gh-pages deployment
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Angular App
+        run: npm run build -- --configuration production --base-href=/RealEstate/
+
+      - name: Deploy to GitHub Pages
+        run: |
+          npm install -g angular-cli-ghpages
+          npx angular-cli-ghpages --dir=dist/real-estate/browser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
