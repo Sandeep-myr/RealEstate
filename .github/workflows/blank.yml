@@ -21,18 +21,14 @@ jobs:
         with:
           node-version: 18
 
-      - name: Move to Project Folder
-        run: cd RealEstate
-
       - name: Install Dependencies
-        run: cd RealEstate && npm install
+        run: npm install
 
       - name: Build Angular App
-        run: cd RealEstate && npm run build -- --configuration production --base-href=/RealEstate/
+        run: npm run build -- --configuration production --base-href=/RealEstate/
 
       - name: Deploy to GitHub Pages
         run: |
-          cd RealEstate
           npm install -g angular-cli-ghpages
           npx angular-cli-ghpages --dir=dist/real-estate/browser
         env:
