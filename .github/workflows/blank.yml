@@ -12,9 +12,16 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: RealEstate   # ✅ THIS IS REQUIRED
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Debug Folder Structure
+        run: ls -la   # 🔥 This will show actual folders (very useful)
 
       - name: Setup Node
         uses: actions/setup-node@v4
