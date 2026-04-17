@@ -12,10 +12,6 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: RealEstate   # ✅ THIS IS THE FIX
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -25,14 +21,18 @@ jobs:
         with:
           node-version: 18
 
+      - name: Move to Project Folder
+        run: cd RealEstate
+
       - name: Install Dependencies
-        run: npm install
+        run: cd RealEstate && npm install
 
       - name: Build Angular App
-        run: npm run build -- --configuration production --base-href=/RealEstate/
+        run: cd RealEstate && npm run build -- --configuration production --base-href=/RealEstate/
 
       - name: Deploy to GitHub Pages
         run: |
+          cd RealEstate
           npm install -g angular-cli-ghpages
           npx angular-cli-ghpages --dir=dist/real-estate/browser
         env:
